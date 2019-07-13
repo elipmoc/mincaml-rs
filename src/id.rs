@@ -1,5 +1,5 @@
 //変数名
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq,Clone)]
 pub struct VarId(String);
 
 //トップレベル関数やグローバル配列のラベル

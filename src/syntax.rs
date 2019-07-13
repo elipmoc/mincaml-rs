@@ -4,7 +4,7 @@ use crate::ty::Ty;
 type BSyntax = Box<Syntax>;
 
 //構文の構造定義
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq,Clone)]
 pub enum Syntax {
     Unit,
     Bool(bool),
@@ -36,7 +36,7 @@ pub enum Syntax {
 }
 
 //関数定義
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq,Clone)]
 pub struct FunDef {
     name: (VarId, Ty),
     args: Vec<(VarId, Ty)>,
