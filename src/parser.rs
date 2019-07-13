@@ -4,6 +4,7 @@ use crate::syntax::Syntax;
 
 named!(simple_exp_parser<Syntax>,
     alt!(
+        map!(preceded!(lparen_parser,rparen_parser),|_|Syntax::Unit) |
         map!(bool_parser,Syntax::Bool) |
         map!(int_parser,Syntax::Int)
     )
@@ -19,6 +20,9 @@ fn simple_exp_test() {
 
     let result = simple_exp_parser("448877".as_bytes());
     assert_full_match_ok!(result,Syntax::Int(448877));
+
+    let result = simple_exp_parser("()".as_bytes());
+    assert_full_match_ok!(result,Syntax::Unit);
 }
 
 
