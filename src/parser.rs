@@ -2,7 +2,7 @@ use crate::token_parser::*;
 use crate::syntax::Syntax;
 
 
-named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],pub simple_exp_parser<Syntax>,
+named_attr!(#[doc="括弧をつけなくても関数の引数になれる式の一部分"],simple_exp_part_parser<Syntax>,
     alt!(
         do_parse!(
             lparen_parser >>
@@ -17,6 +17,25 @@ named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],p
         map!(ident_ignore_parser,|_|Syntax::IgnoreVar)
     )
 );
+
+named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],pub simple_exp_parser<Syntax>,
+    do_parse!(
+        e1: simple_exp_part_parser >>
+        e: alt!(
+                do_parse!(
+                    not!(eof!()) >>
+                    dot_parser >>
+                    lparen_parser >>
+                    e2: exp_parser >>
+                    rparen_parser >>
+                    ((Syntax::Get(Box::new(e1.clone()),Box::new(e2)) ))
+                 ) |
+                 value!(e1)
+           ) >>
+        (e)
+    )
+);
+
 
 #[test]
 fn simple_exp_test() {
@@ -40,6 +59,13 @@ fn simple_exp_test() {
 
     let result = simple_exp_parser("_".as_bytes());
     assert_full_match_ok!(result,Syntax::IgnoreVar);
+
+    let result = simple_exp_parser("5.(777)".as_bytes());
+    let expect = Syntax::Get(
+        Box::new(Syntax::Int(5)),
+        Box::new(Syntax::Int(777)),
+    );
+    assert_full_match_ok!(result,expect);
 }
 
 
