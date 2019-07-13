@@ -24,6 +24,8 @@ pub enum Syntax {
     If(BSyntax, BSyntax, BSyntax),
     Let((VarId, Ty), BSyntax, BSyntax),
     Var(VarId),
+    /// 無視された変数を表す。最終目的にSyntax::Varに変換しなければならない
+    IgnoreVar,
     LetRec(Box<FunDef>, BSyntax),
     App(BSyntax, Vec<BSyntax>),
     Tuple(Vec<BSyntax>),
