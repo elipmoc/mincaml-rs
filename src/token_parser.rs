@@ -12,15 +12,15 @@ named!(comment_end_parser<()>,do_parse!(
 ));
 
 named!(comment_parser<()>,do_parse!(
-    comment_begin_parser
-    >> many0!(
+    comment_begin_parser >>
+    many0!(
         alt!(
            comment_parser |
            map!(preceded!(not!(comment_end_parser),take!(1)),|_|(()))
         )
-       )
-    >> comment_end_parser
-    >> (())
+       ) >>
+    comment_end_parser >>
+    (())
 ));
 
 named!(lparen_parser<()>,do_parse!(
@@ -35,8 +35,8 @@ named!(bool_parser<bool>,do_parse!(
     bool : alt!(
         map!(tag!("true"),|_| true ) |
         map!(tag!("false"),|_| false )
-    )
-    >>(bool)
+    ) >>
+    (bool)
 ));
 
 named!(not_parser<()>,do_parse!(
