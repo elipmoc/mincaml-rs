@@ -1,7 +1,9 @@
+/// 左括弧のパーサ
 named!(pub lparen_parser<()>,do_parse!(
     tag!("(") >> (())
 ));
 
+/// 右括弧のパーサ
 named!(pub rparen_parser<()>,do_parse!(
     tag!(")") >> (())
 ));

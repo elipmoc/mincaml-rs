@@ -1,3 +1,4 @@
+/// boolリテラルのパーサ
 named!(pub bool_parser<bool>,do_parse!(
     bool : alt!(
         map!(tag!("true"),|_| true ) |

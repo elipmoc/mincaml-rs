@@ -1,3 +1,4 @@
+/// not演算子のパーサ
 named!(pub not_parser<()>,do_parse!(
     tag!("not")>>(())
 ));
