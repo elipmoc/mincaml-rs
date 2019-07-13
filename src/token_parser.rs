@@ -1,4 +1,7 @@
 use crate::util::*;
+use nom::character::complete::digit1;
+use std::str;
+use std::str::FromStr;
 
 named!(comment_begin_parser<()>,do_parse!(
     tag!("(*")>>(())
@@ -40,11 +43,20 @@ named!(not_parser<()>,do_parse!(
     tag!("not")>>(())
 ));
 
+named!(int_parser<i32>,
+    map_res!(
+        map_res!(
+            digit1,
+            str::from_utf8
+        ),
+        FromStr::from_str
+    )
+);
+
 #[test]
 fn bool_token_parser_test() {
     let result = bool_parser("false".as_bytes());
     assert_full_match_ok!(result,false);
-
     let result = bool_parser("true".as_bytes());
     assert_full_match_ok!(result,true);
 }
@@ -86,5 +98,13 @@ fn comment_token_parser_test() {
 
     let result = comment_parser("(*aaa iii(* aa *) う)うう**)".as_bytes());
     assert_full_match_ok!(result,());
+}
 
+#[test]
+fn number_token_parser_test() {
+    let result = int_parser("123".as_bytes());
+    assert_full_match_ok!(result,123);
+
+    let result = int_parser("455sadfas47".as_bytes());
+    assert_ok!(result,455);
 }
