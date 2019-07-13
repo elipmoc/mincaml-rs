@@ -9,13 +9,6 @@ named!(digit_str_parser<&str>,
     )
 );
 
-named!(int_parser<i32>,
-    map_res!(
-        digit_str_parser,
-        FromStr::from_str
-    )
-);
-
 named!(decimal_parser<String>,
     map!(
         preceded!( char!('.'), digit_str_parser),
@@ -36,7 +29,14 @@ fn unwrap_or_empty_string(so:Option<String>)->String{
     so.unwrap_or("".to_string())
 }
 
-named!(float_parser<f32>,
+named!(pub int_parser<i32>,
+    map_res!(
+        digit_str_parser,
+        FromStr::from_str
+    )
+);
+
+named!(pub float_parser<f32>,
     map_res!(
         do_parse!(
             s1: digit_str_parser >>

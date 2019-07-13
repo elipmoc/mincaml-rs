@@ -1,4 +1,4 @@
-named!(not_parser<()>,do_parse!(
+named!(pub not_parser<()>,do_parse!(
     tag!("not")>>(())
 ));
 

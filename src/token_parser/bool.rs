@@ -1,4 +1,4 @@
-named!(bool_parser<bool>,do_parse!(
+named!(pub bool_parser<bool>,do_parse!(
     bool : alt!(
         map!(tag!("true"),|_| true ) |
         map!(tag!("false"),|_| false )

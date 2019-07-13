@@ -6,7 +6,7 @@ named!(comment_end_parser<()>,do_parse!(
     tag!("*)")>>(())
 ));
 
-named!(comment_parser<()>,do_parse!(
+named!(pub comment_parser<()>,do_parse!(
     comment_begin_parser >>
     many0!(
         alt!(

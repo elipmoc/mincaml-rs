@@ -1,8 +1,8 @@
-named!(lparen_parser<()>,do_parse!(
+named!(pub lparen_parser<()>,do_parse!(
     tag!("(") >> (())
 ));
 
-named!(rparen_parser<()>,do_parse!(
+named!(pub rparen_parser<()>,do_parse!(
     tag!(")") >> (())
 ));
 
