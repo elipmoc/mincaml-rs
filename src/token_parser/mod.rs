@@ -9,7 +9,7 @@ macro_rules! define_ignore_str_parser {
 
 mod comment;
 mod number;
-mod bool;
+mod boool;
 mod op;
 mod paren;
 mod etc;
