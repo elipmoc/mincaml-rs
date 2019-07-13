@@ -2,7 +2,7 @@ use crate::token_parser::*;
 use crate::syntax::Syntax;
 
 
-named!(simple_exp_parser<Syntax>,
+named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],pub simple_exp_parser<Syntax>,
     alt!(
         map!(preceded!(lparen_parser,rparen_parser),|_|Syntax::Unit) |
         map!(bool_parser,Syntax::Bool) |
