@@ -4,6 +4,12 @@ use crate::syntax::Syntax;
 
 named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],pub simple_exp_parser<Syntax>,
     alt!(
+        do_parse!(
+            lparen_parser >>
+            exp: exp_parser >>
+            rparen_parser >>
+            (exp)
+        )|
         map!(preceded!(lparen_parser,rparen_parser),|_|Syntax::Unit) |
         map!(bool_parser,Syntax::Bool) |
         map!(int_parser,Syntax::Int)
@@ -23,6 +29,10 @@ fn simple_exp_test() {
 
     let result = simple_exp_parser("()".as_bytes());
     assert_full_match_ok!(result,Syntax::Unit);
+
+    let result = simple_exp_parser("((false))".as_bytes());
+    assert_full_match_ok!(result,Syntax::Bool(false));
+
 }
 
 
