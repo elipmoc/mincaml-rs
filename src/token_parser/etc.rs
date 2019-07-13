@@ -1,0 +1,12 @@
+define_ignore_str_parser!(if_parser,"if");
+define_ignore_str_parser!(then_parser,"then");
+define_ignore_str_parser!(else_parser,"else");
+define_ignore_str_parser!(let_parser,"let");
+define_ignore_str_parser!(in_parser,"in");
+define_ignore_str_parser!(rec_parser,"rec");
+define_ignore_str_parser!(comma_parser,",");
+define_ignore_str_parser!(ident_tmp_parser,"_");
+define_ignore_str_parser!(array_create_parser,"Array.create");
+define_ignore_str_parser!(dot_parser,"*");
+define_ignore_str_parser!(less_minus_parser,"<-");
+define_ignore_str_parser!(semicolon_parser,";");
