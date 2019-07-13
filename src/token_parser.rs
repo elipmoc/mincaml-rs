@@ -43,12 +43,16 @@ named!(not_parser<()>,do_parse!(
     tag!("not")>>(())
 ));
 
+named!(digit_str_parser<&str>,
+    map_res!(
+        digit1,
+        str::from_utf8
+    )
+);
+
 named!(int_parser<i32>,
     map_res!(
-        map_res!(
-            digit1,
-            str::from_utf8
-        ),
+        digit_str_parser,
         FromStr::from_str
     )
 );
