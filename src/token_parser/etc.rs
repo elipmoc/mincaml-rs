@@ -7,6 +7,6 @@ define_ignore_str_parser!(#[doc=""],rec_parser,"rec");
 define_ignore_str_parser!(#[doc=""],comma_parser,",");
 define_ignore_str_parser!(#[doc=""],ident_ignore_parser,"_");
 define_ignore_str_parser!(#[doc=""],array_create_parser,"Array.create");
-define_ignore_str_parser!(#[doc=""],dot_parser,"*");
+define_ignore_str_parser!(#[doc=""],dot_parser,".");
 define_ignore_str_parser!(#[doc=""],less_minus_parser,"<-");
 define_ignore_str_parser!(#[doc=""],semicolon_parser,";");
