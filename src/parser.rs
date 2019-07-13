@@ -12,7 +12,8 @@ named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],p
         )|
         map!(preceded!(lparen_parser,rparen_parser),|_|Syntax::Unit) |
         map!(bool_parser,Syntax::Bool) |
-        map!(int_parser,Syntax::Int)
+        map!(int_parser,Syntax::Int) |
+        map!(float_parser,Syntax::Float)
     )
 );
 
@@ -33,6 +34,8 @@ fn simple_exp_test() {
     let result = simple_exp_parser("448877".as_bytes());
     assert_full_match_ok!(result,Syntax::Int(448877));
 
+    let result = simple_exp_parser("1.7e-2".as_bytes());
+    assert_full_match_ok!(result,Syntax::Float(1.7e-2));
 }
 
 

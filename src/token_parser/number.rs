@@ -31,7 +31,18 @@ fn unwrap_or_empty_string(so:Option<String>)->String{
 
 named_attr!(#[doc="intリテラルのパーサ"],pub int_parser<i32>,
     map_res!(
-        digit_str_parser,
+        do_parse!(
+            s: digit_str_parser >>
+            alt!(
+                map!(eof!(),|_|(())) |
+                do_parse!(
+                    not!(decimal_parser) >>
+                    not!(exponent_parser) >>
+                    (())
+                )
+            ) >>
+            (s)
+        ),
         FromStr::from_str
     )
 );
@@ -41,7 +52,10 @@ named_attr!(#[doc="floatリテラルのパーサ"],pub float_parser<f32>,
         do_parse!(
             s1: digit_str_parser >>
             s2: map!(
-                    opt!(decimal_parser),
+                    alt!(
+                        map!(eof!(),|_| None) |
+                        opt!(decimal_parser)
+                    ),
                     unwrap_or_empty_string
                 ) >>
             s3: map!(
