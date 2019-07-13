@@ -33,7 +33,7 @@ impl IdGenerator {
         format!("{}.{}", s, self.count_up())
     }
 
-    //型から一意な識別子を生成する
+    //型を持った一意な識別子を生成する
     pub fn gen_tmp(&mut self, ty: &Ty) -> String {
         format!("T{}.{}", id_of_type(ty), self.count_up())
     }
