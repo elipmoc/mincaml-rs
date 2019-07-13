@@ -29,16 +29,14 @@ fn unwrap_or_empty_string(so:Option<String>)->String{
     so.unwrap_or("".to_string())
 }
 
-/// intリテラルのパーサ
-named!(pub int_parser<i32>,
+named_attr!(#[doc="intリテラルのパーサ"],pub int_parser<i32>,
     map_res!(
         digit_str_parser,
         FromStr::from_str
     )
 );
 
-/// floatリテラルのパーサ
-named!(pub float_parser<f32>,
+named_attr!(#[doc="floatリテラルのパーサ"],pub float_parser<f32>,
     map_res!(
         do_parse!(
             s1: digit_str_parser >>

@@ -6,8 +6,8 @@ named!(comment_end_parser<()>,do_parse!(
     tag!("*)")>>(())
 ));
 
-/// コメント文のパーサ
-named!(pub comment_parser<()>,do_parse!(
+named_attr!(#[doc="コメント文のパーサ"],pub comment_parser<()>,
+do_parse!(
     comment_begin_parser >>
     many0!(
         alt!(
