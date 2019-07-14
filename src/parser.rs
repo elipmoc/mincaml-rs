@@ -2,7 +2,7 @@ use crate::token_parser::*;
 use crate::syntax::Syntax;
 
 
-named_attr!(#[doc="括弧をつけなくても関数の引数になれる式の一部分"],simple_exp_part_parser<Syntax>,
+named_attr!(#[doc="括弧で囲まなくても関数の引数になれる式の一部分"],simple_exp_part_parser<Syntax>,
     alt!(
         do_parse!(
             lparen_parser >>
@@ -18,7 +18,7 @@ named_attr!(#[doc="括弧をつけなくても関数の引数になれる式の�
     )
 );
 
-named_attr!(#[doc="括弧をつけなくても関数の引数になれる式"],pub simple_exp_parser<Syntax>,
+named_attr!(#[doc="括弧で囲まなくても関数の引数になれる式"],pub simple_exp_parser<Syntax>,
     do_parse!(
         e1: simple_exp_part_parser >>
         e: alt!(
