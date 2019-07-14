@@ -69,5 +69,16 @@ fn simple_exp_test() {
 }
 
 
-named!(exp_parser<Syntax>,do_parse!(e:simple_exp_parser>>((e)) ) );
+named!(pub exp_parser<Syntax>,
+        alt!(
+            simple_exp_parser |
+            map!(ws!(preceded!(not_parser,exp_parser)),|e|Syntax::Not(Box::new(e)))
+        )
+);
 
+
+#[test]
+fn exp_test() {
+    let result=exp_parser("not 44".as_bytes());
+    assert_full_match_ok!(result,Syntax::Not(Box::new(Syntax::Int(44))));
+}
