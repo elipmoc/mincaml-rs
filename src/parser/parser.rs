@@ -1,5 +1,6 @@
 use crate::token_parser::*;
 use crate::syntax::Syntax;
+use super::helper::*;
 
 
 named_attr!(#[doc="括弧で囲まなくても関数の引数になれる式の一部分"],simple_exp_part_parser<Syntax>,
@@ -76,19 +77,6 @@ named!(pub exp_parser<Syntax>,
             map!(ws!(preceded!(minus_parser,exp_parser)),create_minus_syntax)
         )
 );
-
-fn create_not_syntax(e: Syntax) -> Syntax {
-    Syntax::Not(Box::new(e))
-}
-
-
-fn create_minus_syntax(e: Syntax) -> Syntax {
-    match e {
-        Syntax::Float(f) => Syntax::Float(-f),
-        e => Syntax::Neg(Box::new(e))
-    }
-}
-
 
 #[test]
 fn exp_test() {
