@@ -73,6 +73,7 @@ named!(pub exp_parser<Syntax>,
         alt!(
             simple_exp_parser |
             map!(ws!(preceded!(not_parser,exp_parser)),create_not_syntax) |
+            map!(ws!(preceded!(minus_parser,exp_parser)),create_minus_syntax)
         )
 );
 
@@ -81,8 +82,22 @@ fn create_not_syntax(e: Syntax) -> Syntax {
 }
 
 
+fn create_minus_syntax(e: Syntax) -> Syntax {
+    match e {
+        Syntax::Float(f) => Syntax::Float(-f),
+        e => Syntax::Neg(Box::new(e))
+    }
+}
+
+
 #[test]
 fn exp_test() {
     let result=exp_parser("not 44".as_bytes());
     assert_full_match_ok!(result,Syntax::Not(Box::new(Syntax::Int(44))));
+
+    let result = exp_parser("- 118".as_bytes());
+    assert_full_match_ok!(result,Syntax::Neg(Box::new(Syntax::Int(118))));
+
+    let result = exp_parser("- 118.5e4".as_bytes());
+    assert_full_match_ok!(result,Syntax::Float(-118.5e4));
 }
