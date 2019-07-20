@@ -26,3 +26,9 @@ macro_rules! assert_full_match_ok {
        }
    }
 }
+#[cfg(test)]
+macro_rules! assert_err {
+   ($r: expr) => {
+    assert!($r.is_ok()==false,"expect Err");
+   }
+}
