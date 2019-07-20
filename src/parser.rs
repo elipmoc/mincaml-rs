@@ -72,9 +72,13 @@ fn simple_exp_test() {
 named!(pub exp_parser<Syntax>,
         alt!(
             simple_exp_parser |
-            map!(ws!(preceded!(not_parser,exp_parser)),|e|Syntax::Not(Box::new(e)))
+            map!(ws!(preceded!(not_parser,exp_parser)),create_not_syntax) |
         )
 );
+
+fn create_not_syntax(e: Syntax) -> Syntax {
+    Syntax::Not(Box::new(e))
+}
 
 
 #[test]
