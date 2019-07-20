@@ -5,13 +5,13 @@ use super::helper::*;
 
 named_attr!(#[doc="括弧で囲まなくても関数の引数になれる式の一部分"],simple_exp_part_parser<Syntax>,
     alt!(
+        map!(preceded!(lparen_parser,rparen_parser),|_|Syntax::Unit) |
         do_parse!(
             lparen_parser >>
             exp: exp_parser >>
             rparen_parser >>
             (exp)
         )|
-        map!(preceded!(lparen_parser,rparen_parser),|_|Syntax::Unit) |
         map!(bool_parser,Syntax::Bool) |
         map!(int_parser,Syntax::Int) |
         map!(float_parser,Syntax::Float) |
@@ -69,13 +69,30 @@ fn simple_exp_test() {
     assert_full_match_ok!(result,expect);
 }
 
+named!(unary_op_exp_parser<Syntax>,
+    alt!(
+        simple_exp_parser |
+        map!(preceded!(not_parser,exp_parser),create_not_syntax) |
+        map!(preceded!(minus_parser,exp_parser),create_minus_syntax)
+    )
+);
+
+named!(binary_op_exp_parser<Syntax>,
+    alt!(
+        map!(
+            pair!(
+                unary_op_exp_parser,
+                complete!(preceded!(plus_parser,exp_parser))
+            ),
+            create_plus_syntax
+        ) |
+        unary_op_exp_parser
+    )
+);
+
 
 named!(pub exp_parser<Syntax>,
-        alt!(
-            simple_exp_parser |
-            map!(ws!(preceded!(not_parser,exp_parser)),create_not_syntax) |
-            map!(ws!(preceded!(minus_parser,exp_parser)),create_minus_syntax)
-        )
+        ws!(binary_op_exp_parser)
 );
 
 #[test]
@@ -88,4 +105,11 @@ fn exp_test() {
 
     let result = exp_parser("- 118.5e4".as_bytes());
     assert_full_match_ok!(result,Syntax::Float(-118.5e4));
+
+    let result = exp_parser("4+7788".as_bytes());
+    let expect = Syntax::Add(
+        Box::new(Syntax::Int(4)),
+        Box::new(Syntax::Int(7788)),
+    );
+    assert_full_match_ok!(result,expect);
 }

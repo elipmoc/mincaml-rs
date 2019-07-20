@@ -11,3 +11,7 @@ pub fn create_minus_syntax(e: Syntax) -> Syntax {
         e => Syntax::Neg(Box::new(e))
     }
 }
+
+pub fn create_plus_syntax((e1, e2): (Syntax, Syntax)) -> Syntax {
+    Syntax::Add(Box::new(e1), Box::new(e2))
+}
