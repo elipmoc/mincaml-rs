@@ -92,7 +92,7 @@ fn create_minus_syntax(e: Syntax) -> Syntax {
 
 #[test]
 fn exp_test() {
-    let result=exp_parser("not 44".as_bytes());
+    let result = exp_parser("not 44".as_bytes());
     assert_full_match_ok!(result,Syntax::Not(Box::new(Syntax::Int(44))));
 
     let result = exp_parser("- 118".as_bytes());
