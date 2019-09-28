@@ -1,9 +1,13 @@
 // 特定の文字列にマッチしてunitを返すパーサを簡易定義できるマクロ
 macro_rules! define_ignore_str_parser {
     ($(#[$attr:meta])*,$f_name:ident,$s:expr) => {
-        named_attr!($(#[$attr])*,pub $f_name<()>,do_parse!(
-            tag!($s)>>(())
-        ));
+
+        $(#[$attr])*
+        pub fn $f_name(s:&str)->IResult<&str,()>{
+            use nom::bytes::complete::tag;
+            use nom::combinator::value;
+            value((),tag($s))(s)
+        }
     };
 }
 

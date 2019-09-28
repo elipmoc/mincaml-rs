@@ -1,3 +1,5 @@
+use nom::IResult;
+
 define_ignore_str_parser!(#[doc="not演算子のパーサ"],not_parser,"not");
 
 define_ignore_str_parser!(#[doc="-演算子のパーサ"],minus_parser,"-");
@@ -20,9 +22,9 @@ define_ignore_str_parser!(#[doc="大小比較演算子"],greater_parser,">");
 
 #[test]
 fn not_token_parser_test() {
-    let result = not_parser("not".as_bytes());
+    let result = not_parser("not");
     assert_full_match_ok!(result,());
 
-    let result = not_parser("not rtert".as_bytes());
+    let result = not_parser("not rtert");
     assert_ok!(result,());
 }
