@@ -3,10 +3,9 @@ use crate::syntax::Syntax;
 use super::helper::*;
 
 use nom::IResult;
-use nom::bytes::complete::{tag, take};
+use nom::bytes::complete::take;
 use nom::combinator::{map, not, value};
 use nom::sequence::{tuple, preceded, pair};
-use nom::multi::many0;
 use nom::branch::alt;
 
 ///括弧で囲まなくても関数の引数になれる式の一部分

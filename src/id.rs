@@ -7,7 +7,7 @@ pub struct Label(String);
 
 //文字列の要素を結合する
 pub fn pp_list(xs: &Vec<String>) -> String {
-    xs.connect(" ")
+    xs.join(" ")
 }
 
 #[test]
