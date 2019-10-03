@@ -1,6 +1,7 @@
 pub mod ty;
 pub mod id;
-pub mod syntax;
+pub mod syntax_impl;
+pub mod syntax_creator_impl;
 
 #[macro_use]
 extern crate nom;

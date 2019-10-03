@@ -1,11 +1,12 @@
 use crate::id::VarId;
 use crate::ty::Ty;
+use crate::parser::syntax::Syntax;
 
-type BSyntax = Box<Syntax>;
+type BSyntax = Box<SyntaxImpl>;
 
 //構文の構造定義
-#[derive(Debug, PartialEq,Clone)]
-pub enum Syntax {
+#[derive(Debug, PartialEq, Clone)]
+pub enum SyntaxImpl {
     Unit,
     Bool(bool),
     Int(i32),
@@ -35,10 +36,12 @@ pub enum Syntax {
     Put(BSyntax, BSyntax, BSyntax),
 }
 
+impl Syntax for SyntaxImpl {}
+
 //関数定義
-#[derive(Debug, PartialEq,Clone)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct FunDef {
     name: (VarId, Ty),
     args: Vec<(VarId, Ty)>,
-    body: Syntax,
+    body: SyntaxImpl,
 }
